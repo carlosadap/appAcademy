@@ -45,10 +45,9 @@ class Hangman
     else
       @attempted_chars << char
       indices = self.get_matching_indices(char)
+      self.fill_indices(char,indices)
       if indices.length == 0
         @remaining_incorrect_guesses -= 1
-      else
-        self.fill_indices(char,indices)
       end
       return true
     end
@@ -57,15 +56,14 @@ class Hangman
   def ask_user_for_guess
     print "Enter a char: "
     guess = gets.chomp
-    try = try_guess(guess)
+    self.try_guess(guess)
   end
 
   def win?
     if @guess_word.join == @secret_word
-      print "WIN"
+      puts "WIN"
       return true
     else
-      print "LOSE"
       return false
     end
   end
@@ -81,7 +79,7 @@ class Hangman
 
   def game_over?
     if self.win? || self.lose?
-      print @secret_word
+      puts @secret_word
       return true
     else
       return false
