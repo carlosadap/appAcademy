@@ -42,8 +42,6 @@ class Battleship
     move = @player.get_move
     if !@board.attack(move)
       @remaining_misses -= 1
-    else
-      @board[move] = :H
     end
     @board.print
     puts @remaining_misses
