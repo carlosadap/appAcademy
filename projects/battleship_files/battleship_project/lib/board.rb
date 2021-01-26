@@ -68,7 +68,7 @@ class Board
   end
 
   def self.print_grid(array)
-    array.each { |subarray| puts "#{subarray.join(" ")}\n" }
+    array.each { |subarray| puts subarray.join(" ") }
   end
 
   def cheat
