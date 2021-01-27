@@ -43,7 +43,7 @@ end
 # composite?(9)     # => true
 # composite?(13)    # => false
 def composite?(num)
-
+    (2...num).any? { |factor| num % factor == 0 }
 end
 
 
@@ -57,7 +57,17 @@ end
 # find_bigrams("the theater is empty", ["cy", "em", "ty", "ea", "oo"])  # => ["em", "ty", "ea"]
 # find_bigrams("to the moon and back", ["ck", "oo", "ha", "at"])        # => ["ck", "oo"]
 def find_bigrams(str, bigrams)
+	arr = str.split("")
 
+	contained_bigrams = []
+
+	bigrams.each do |bigram|
+		(0...arr.length-1).each do |idx|
+			contained_bigrams << bigram if bigram == (arr[idx] + arr[idx+1])
+		end
+	end
+
+	contained_bigrams
 end
 
 class Hash
@@ -74,8 +84,16 @@ class Hash
     # hash_2 = {4=>4, 10=>11, 12=>3, 5=>6, 7=>8}
     # hash_2.my_select { |k, v| k + 1 == v }      # => {10=>11, 5=>6, 7=>8})
     # hash_2.my_select                            # => {4=>4}
-    def my_select(&prc)
+		def my_select(&prc)
+			prc ||= Proc.new { |k, v| k == v }
 
+			hash = {}
+
+			self.each do |k, v|
+				hash[k] = v if prc.call(k, v)
+			end
+
+			hash
     end
 end
 
@@ -88,9 +106,24 @@ class String
     #
     # "cats".substrings     # => ["c", "ca", "cat", "cats", "a", "at", "ats", "t", "ts", "s"]
     # "cats".substrings(2)  # => ["ca", "at", "ts"]
-    def substrings(length = nil)
+		def substrings(length = nil)
+			string_arr = self.split("")
+			sub_strings = []
 
-    end
+			(0...string_arr.length).each do |i|
+				(i...string_arr.length).each do |j|
+					sub_strings << string_arr.slice(i..j).join
+				end
+			end
+
+			if !length
+				sub_strings
+			else
+				sub_strings.select { |ele| ele.length == length }
+			end
+		end
+		
+
 
 
     # Write a method, String#caesar_cipher, that takes in an a number.
@@ -102,7 +135,11 @@ class String
     # "apple".caesar_cipher(1)    #=> "bqqmf"
     # "bootcamp".caesar_cipher(2) #=> "dqqvecor"
     # "zebra".caesar_cipher(4)    #=> "difve"
-    def caesar_cipher(num)
+		def caesar_cipher(num)
+			alphabet = ('a'..'z').to_a
 
+			new_arr = self.split("")
+
+			new_arr.map { |ele| alphabet[(alphabet.index(ele) + num) % alphabet.length]} .join
     end
 end
