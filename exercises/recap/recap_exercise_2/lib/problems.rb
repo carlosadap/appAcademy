@@ -60,14 +60,16 @@ class Array
     # it does not matter which element goes first (i.e. do nothing).
     #
     # This should remind you of the spaceship operator! Convenient :)
-    def bubble_sort#(&prc)
+		def bubble_sort(&prc)
+			prc ||= Proc.new { |a, b| a <=> b }
+
 			sorted = false
 
 			while !sorted
 				sorted = true
 
 				(0...self.length-1).each do |i|
-					if self[i] > self[i+1]
+					if prc.call(self[i], self[i+1]) == 1
 						self[i], self[i+1] = self[i+1], self[i]
 						sorted = false
 					end
