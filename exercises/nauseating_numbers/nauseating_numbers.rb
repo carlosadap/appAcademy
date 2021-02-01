@@ -213,3 +213,132 @@ p matrix_addition_reloaded(matrix_a, matrix_b, matrix_e)    # nil
 p matrix_addition_reloaded(matrix_d, matrix_e, matrix_c)    # nil
 p matrix_addition_reloaded(matrix_d, matrix_e, matrix_f)    # nil
 puts "----------"
+
+def squaragonal?(arr)
+  length = arr.length
+  diagonal_1 = []
+  diagonal_2 = []
+
+  (0...length-1).each do |idx|
+    diagonal_1 << arr[idx][idx]
+    diagonal_2 << arr[idx][length-1-idx]
+  end
+
+  diagonal_1.uniq.size == 1 || diagonal_2.uniq.size == 1
+
+end
+
+  p squaragonal?([
+    [:x, :y, :o],
+    [:x, :x, :x],
+    [:o, :o, :x],
+]) # true
+
+p squaragonal?([
+    [:x, :y, :o],
+    [:x, :o, :x],
+    [:o, :o, :x],
+]) # true
+
+p squaragonal?([
+    [1, 2, 2, 7],
+    [1, 1, 6, 7],
+    [0, 5, 1, 7],
+    [4, 2, 9, 1],
+]) # true
+
+
+p squaragonal?([
+    [1, 2, 2, 5],
+    [1, 6, 5, 0],
+    [0, 2, 2, 7],
+    [5, 2, 9, 7],
+]) # false
+puts "----------"
+
+def pascals_triangle(n)
+  base_arr = [[1], [1,1]]
+
+  if n == 1
+    return [[1]]
+  elsif n == 2
+    return base_arr
+  end
+
+  row = 2
+
+  while base_arr.length < n
+    base_arr << [1]
+
+    (0...row-1).each do |idx|
+      base_arr[row] << base_arr[row-1][idx] + base_arr[row-1][idx+1]
+    end
+
+    base_arr[row] << 1
+    row += 1    
+  end
+
+  base_arr
+
+end
+
+
+p pascals_triangle(5)
+# [
+#     [1],
+#     [1, 1],
+#     [1, 2, 1],
+#     [1, 3, 3, 1],
+#     [1, 4, 6, 4, 1]
+# ]
+
+p pascals_triangle(7)
+# [
+#     [1],
+#     [1, 1],
+#     [1, 2, 1],
+#     [1, 3, 3, 1],
+#     [1, 4, 6, 4, 1],
+#     [1, 5, 10, 10, 5, 1],
+#     [1, 6, 15, 20, 15, 6, 1]
+# ]
+
+puts "----------"
+
+def mersenne_prime(n)
+  new_arr = []
+  num = 3
+
+  while new_arr.length < n
+    new_arr << num if prime?(num) && one_less_power2?(num) 
+    num += 1
+  end
+
+  new_arr[-1]
+end
+
+def prime?(n)
+  return false if n < 2
+
+  (2...n).each { |div| return false if n % div == 0 }
+
+  true
+end
+
+def one_less_power2?(n)
+  num = 2
+
+  while num < n
+    num *= 2
+  end
+  
+  num -1 == n
+end
+
+
+p mersenne_prime(1) # 3
+p mersenne_prime(2) # 7
+p mersenne_prime(3) # 31
+p mersenne_prime(4) # 127
+p mersenne_prime(6) # 131071
+puts "----------"

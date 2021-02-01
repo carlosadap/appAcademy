@@ -180,3 +180,76 @@ p matrix_addition_reloaded(matrix_a, matrix_b, matrix_e)    # nil
 p matrix_addition_reloaded(matrix_d, matrix_e, matrix_c)    # nil
 p matrix_addition_reloaded(matrix_d, matrix_e, matrix_f)    # nil
 ```
+
+### squaragonal?
+
+Write a method `squaragonal?` that accepts 2-dimensional array as an argument. The method should return a boolean indicating whether or not the array contains all of the same element across either of its diagonals. You may assume that the 2-dimensional array has "square" dimensions, meaning it's height is the same as it's width.
+
+Examples
+
+```ruby
+p squaragonal?([
+    [:x, :y, :o],
+    [:x, :x, :x],
+    [:o, :o, :x],
+]) # true
+
+p squaragonal?([
+    [:x, :y, :o],
+    [:x, :o, :x],
+    [:o, :o, :x],
+]) # true
+
+p squaragonal?([
+    [1, 2, 2, 7],
+    [1, 1, 6, 7],
+    [0, 5, 1, 7],
+    [4, 2, 9, 1],
+]) # true
+
+
+p squaragonal?([
+    [1, 2, 2, 5],
+    [1, 6, 5, 0],
+    [0, 2, 2, 7],
+    [5, 2, 9, 7],
+]) # false
+```
+
+### pascals_triangle
+
+[Pascal's triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle) is a 2-dimensional array with the shape of a pyramid. The top of the pyramid is the number 1. To generate further levels of the pyramid, every element is the sum of the element above and to the left with the element above and to the right. Nonexisting elements are treated as 0 when calculating the sum. For example, here are the first 5 levels of Pascal's triangle:
+
+```ruby
+      1
+     1 1
+    1 2 1
+   1 3 3 1
+  1 4 6 4 1
+```
+
+Write a method `pascals_triangle` that accepts a positive number, n, as an argument and returns a 2-dimensional array representing the first n levels of pascal's triangle.
+
+Examples
+
+```ruby
+p pascals_triangle(5)
+# [
+#     [1],
+#     [1, 1],
+#     [1, 2, 1],
+#     [1, 3, 3, 1],
+#     [1, 4, 6, 4, 1]
+# ]
+
+p pascals_triangle(7)
+# [
+#     [1],
+#     [1, 1],
+#     [1, 2, 1],
+#     [1, 3, 3, 1],
+#     [1, 4, 6, 4, 1],
+#     [1, 5, 10, 10, 5, 1],
+#     [1, 6, 15, 20, 15, 6, 1]
+# ]
+```
