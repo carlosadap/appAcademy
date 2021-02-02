@@ -340,5 +340,110 @@ p mersenne_prime(1) # 3
 p mersenne_prime(2) # 7
 p mersenne_prime(3) # 31
 p mersenne_prime(4) # 127
-p mersenne_prime(6) # 131071
+# p mersenne_prime(6) # 131071
+puts "----------"
+
+def triangular_word?(word)
+  alphabet = ('a'..'z').to_a
+  alphabet.unshift("")
+  chars = word.split("")
+
+  chars_idx = chars.map { |char| alphabet.index(char) }  
+
+  encoded_word = chars_idx.sum
+
+  triangular_number?(encoded_word)
+
+end
+
+def triangular_number?(code)
+  num = 1
+  calc = (num * (num + 1)) / 2
+
+  while calc < code
+    num += 1
+    calc = (num * (num + 1)) / 2
+  end
+
+  calc == code
+end
+
+p triangular_word?('abc')       # true
+p triangular_word?('ba')        # true
+p triangular_word?('lovely')    # true
+p triangular_word?('question')  # true
+p triangular_word?('aa')        # false
+p triangular_word?('cd')        # false
+p triangular_word?('cat')       # false
+p triangular_word?('sink')      # false
+puts "----------"
+
+
+def consecutive_collapse(arr)
+  collapsed = false
+
+  while !collapsed
+    collapsed = true
+    idx = 0
+    while idx < arr.length-1
+      condition = (arr[idx] - arr[idx+1] == 1 || arr[idx+1] - arr[idx] == 1)
+      if condition
+        collapsed = false
+        arr = arr[0...idx] + arr[(idx+2)..-1]
+        idx = arr.length-1
+      end
+      idx += 1
+    end
+  end
+
+  arr
+end
+
+p consecutive_collapse([3, 4, 1])                     # [1]
+p consecutive_collapse([1, 4, 3, 7])                  # [1, 7]
+p consecutive_collapse([9, 8, 2])                     # [2]
+p consecutive_collapse([9, 8, 4, 5, 6])               # [6]
+p consecutive_collapse([1, 9, 8, 6, 4, 5, 7, 9, 2])   # [1, 9, 2]
+p consecutive_collapse([3, 5, 6, 2, 1])               # [1]
+p consecutive_collapse([5, 7, 9, 9])                  # [5, 7, 9, 9]
+p consecutive_collapse([13, 11, 12, 12])              # []
+puts "----------"
+
+def pretentious_primes(arr, num)
+  arr.map { |ele| nearest_prime(ele, num) }
+end
+
+def nearest_prime(ele, num)
+  i = ele
+  if num > 0
+    while num > 0
+      i += 1
+      if prime?(i)
+        num -= 1
+      end
+    end
+  else
+    while num < 0
+      i -= 1
+      if prime?(i)
+        num += 1
+      elsif i == 0
+        return nil
+      end
+    end
+  end
+
+  i
+end
+
+p pretentious_primes([4, 15, 7], 1)           # [5, 17, 11]
+p pretentious_primes([4, 15, 7], 2)           # [7, 19, 13]
+p pretentious_primes([12, 11, 14, 15, 7], 1)  # [13, 13, 17, 17, 11]
+p pretentious_primes([12, 11, 14, 15, 7], 3)  # [19, 19, 23, 23, 17]
+p pretentious_primes([4, 15, 7], -1)          # [3, 13, 5]
+p pretentious_primes([4, 15, 7], -2)          # [2, 11, 3]
+p pretentious_primes([2, 11, 21], -1)         # [nil, 7, 19]
+p pretentious_primes([32, 5, 11], -3)         # [23, nil, 3]
+p pretentious_primes([32, 5, 11], -4)         # [19, nil, 2]
+p pretentious_primes([32, 5, 11], -5)         # [17, nil, nil]
 puts "----------"
