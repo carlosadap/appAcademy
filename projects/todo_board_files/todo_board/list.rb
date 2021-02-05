@@ -75,7 +75,7 @@ class List
     end
   end
 
-  def up(index, amount)
+  def up(index, amount = 1)
     return false if !self.valid_index?(index)
 
     while index >= 0 && amount > 0
