@@ -16,14 +16,14 @@ class Item
   attr_accessor :title, :description
 
   def initialize(title, deadline, description)
-    raise "Deadline with an invalid date" if !Item.valid_date?(deadline)
+    fail "Deadline with an invalid date" if !Item.valid_date?(deadline)
     @title = title
     @deadline = deadline
     @description = description
   end
 
   def deadline=(deadline)
-    raise "Deadline with an invalid date" if !Item.valid_date?(deadline)
+    fail "Deadline with an invalid date" if !Item.valid_date?(deadline)
     @deadline = deadline
   end
 end
