@@ -2,15 +2,16 @@ require_relative 'board.rb'
 require_relative 'human_player.rb'
 
 class Game
-  def initialize(p1, p2, n)
-    @p1 = HumanPlayer.new(p1)
-    @p2 = HumanPlayer.new(p2)
+  def initialize(n, *p)
+    @players = []
+    p.each { |player| @players << HumanPlayer.new(player) }
     @board = Board.new(n)
-    @current_p = @p1
+    @current_p = @players[0]
   end
 
   def switch_turn
-    @current_p == @p1 ? @current_p = @p2 : @current_p = @p1
+    @players.rotate!
+    @current_p = @players[0]
   end
 
   def play
