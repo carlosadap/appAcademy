@@ -9,10 +9,10 @@ class TodoBoard
   def get_command
     puts "Enter a command:"
     cmd, *args = gets.chomp.split(" ")
-    args = args.map { |arg| arg.to_i }
+    @list.add_item(*args) if cmd == "mktodo"
+
+    args.map!(&:to_i)
     case cmd
-    when "mktodo"
-      @list.add_item(*args)
     when "up"
       @list.up(*args)
     when "down"
@@ -39,8 +39,9 @@ class TodoBoard
   end
 
   def run
-    while true
-      self.get_command
+    is_on = true
+    while is_on
+      is_on = self.get_command
     end
   end
 end
