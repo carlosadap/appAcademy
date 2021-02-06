@@ -9,33 +9,42 @@ class TodoBoard
   def get_command
     puts "Enter a command:"
     cmd, *args = gets.chomp.split(" ")
-    @list.add_item(*args) if cmd == "mktodo"
-
-    args.map!(&:to_i)
-    case cmd
-    when "up"
-      @list.up(*args)
-    when "down"
-      @list.down(*args)
-    when "swap"
-      @list.swap(*args)
-    when "sort"
-      @list.sort_by_date!
-    when "priority"
-      @list.print_priority
-    when "print"
-      if args[0]
-        @list.print_full_item(args[0])
-      else
-        @list.print
-      end
-    when "quit"
-      return false
+    if cmd == "mktodo"
+      @list.add_item(*args) 
     else
-      puts "Sorry, that command is not recognized"
-    end
 
-    true
+      args.map!(&:to_i)
+      case cmd
+      when "up"
+        @list.up(*args)
+      when "down"
+        @list.down(*args)
+      when "swap"
+        @list.swap(*args)
+      when "sort"
+        @list.sort_by_date!
+      when "priority"
+        @list.print_priority
+      when "print"
+        if args[0]
+          @list.print_full_item(args[0])
+        else
+          @list.print
+        end
+      when "quit"
+        return false
+      when "toggle"
+        @list.toggle_item(args[0])
+      when "rm"
+        @list.remove_item(args[0])
+      when "purge"
+        @list.purge
+      else
+        puts "Sorry, that command is not recognized"
+      end
+
+      true
+    end
   end
 
   def run
