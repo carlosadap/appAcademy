@@ -69,6 +69,20 @@ class Array
   end
 
   def bubble_sort(&prc)
+    sorted = false
+    new_arr = self.map { |ele| ele }
+
+    while !sorted
+      sorted = true
+
+      (0...new_arr.length-1).each do |idx|
+        if prc.call(new_arr[idx], new_arr[idx + 1]) == 1
+          sorted = false
+          new_arr[idx], new_arr[idx + 1] = new_arr[idx+1], new_arr[idx]
+        end
+      end
+    end
+    new_arr
   end
 end
 
@@ -86,9 +100,20 @@ end
 # words).
 
 def substrings(string)
+  substrings_arr = []
+  chars = string.split("")
+
+  (0...chars.length).each do |idx_1|
+    (idx_1...chars.length).each do |idx_2|
+      substrings_arr << chars[idx_1..idx_2].join("")
+    end
+  end
+
+  substrings_arr
 end
 
 def subwords(word, dictionary)
+  substrings(word).substr_arr.select { |ele| dictionary.include?(ele) }
 end
 
 # ### Doubler
@@ -96,6 +121,7 @@ end
 # array with the original elements multiplied by two.
 
 def doubler(array)
+  array.map { |ele| ele*2 }
 end
 
 # ### My Each
@@ -123,6 +149,14 @@ end
 
 class Array
   def my_each(&prc)
+    idx = 0
+
+    while idx < self.length
+      prc.call(self[idx])
+      idx += 1
+    end
+
+    self
   end
 end
 
@@ -141,12 +175,33 @@ end
 
 class Array
   def my_map(&prc)
+    idx = 0
+    new_arr = []
+
+    while idx < self.length
+      new_arr << prc.call(self[idx])
+      idx += 1
+    end
+
+    new_arr
   end
 
   def my_select(&prc)
+    new_arr = []
+
+    self.my_each { |ele| new_arr << ele if prc.call(ele) }
+
+    new_arr
   end
 
   def my_inject(&blk)
+    val = self[0]
+
+    (1...self.length).to_a.my_each do |idx|
+      val += blk.call(self[idx])
+    end
+
+    val
   end
 end
 
@@ -160,4 +215,11 @@ end
 # ```
 
 def concatenate(strings)
+  val = ""
+
+  (0...strings.length).to_a.my_each do |idx|
+    val += strings[idx]
+  end
+
+  val
 end
