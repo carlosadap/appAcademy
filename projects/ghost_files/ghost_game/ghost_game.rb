@@ -1,8 +1,9 @@
+require 'set'
 require_relative './player.rb'
 
 class Game
   attr_reader :players, :dictionary
-  MAX_LOSES = 5
+  MAX_LOSES = 2
   ALPHABET = Set.new("a".."z")
 
   def initialize(*players)
@@ -13,7 +14,8 @@ class Game
 
     @active_players = @players.map { |ele| ele }
     @current_player = @active_players[0]
-    @losses = Hash.new(0)
+    @losses = {}
+    @active_players.each { |player| @losses[player] = 0}
   end
   
   def play_round
@@ -22,7 +24,7 @@ class Game
   end
 
   def take_turn(player)
-    puts "Make your guess #{player.name}, current fragment is '#{@fragment}"
+    puts "Make your guess #{player.name}, current fragment is '#{@fragment}'"
     guess = gets.chomp
 
     if self.valid_play?(guess)
@@ -35,7 +37,9 @@ class Game
     if @dictionary.include?(@fragment)
       @losses[player] += 1
       @fragment = ""
-      puts "#{@current_player} guessed a real word and loses. His number of losses is: #{@loses[player]}"
+      print "#{@current_player.name} guessed a real word and loses.\n"
+      print "The total sum of loses is:\n" 
+      @losses.each { |key, val| print "#{key.name} has #{val} loses\n" }
     end
   end
 

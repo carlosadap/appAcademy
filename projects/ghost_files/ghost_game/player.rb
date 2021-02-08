@@ -1,13 +1,15 @@
 class Player
+  attr_reader :name
+
   def initialize(name)
     @name = name
   end
 
-  def guess(letter)
+  # def guess(letter)
 
-  end
+  # end
 
-  def alert_invalid_guess
+  # def alert_invalid_guess
 
-  end
+  # end
 end
