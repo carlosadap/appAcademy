@@ -3,7 +3,7 @@ require_relative './player.rb'
 
 class Game
   attr_reader :players, :dictionary
-  MAX_LOSES = 2
+  MAX_LOSES = 5
   ALPHABET = Set.new("a".."z")
 
   def initialize(*players)
