@@ -1,5 +1,6 @@
 class Card
   attr_reader :value
+  attr_accessor :visible
 
   def initialize(value)
     @value = value

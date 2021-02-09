@@ -6,6 +6,7 @@ class Board
 
   def initialize(length = 4)
     @length = length
+    @board = self.populate
   end
 
   def populate
@@ -14,22 +15,35 @@ class Board
       pair_arr << ALPHABET.sample
       pair_arr.uniq!
     end
-    
+
     doubled_arr = pair_arr + pair_arr
     doubled_arr.shuffle!
     
     arr = Array.new(@length) { Array.new(@length) }
     populated_arr = arr.map do |row|
-      row.map { |col| doubled_arr.pop }
+      row.map { |col| Card.new(doubled_arr.pop) }
     end
   end
 
   def render
-
+    arr = (0...@length).to_a
+    print "\t"
+    arr.each_index { |idx| print "#{idx}\t"}
+    print "\n"
+    @board.each_with_index do |row, idx|
+      print "#{arr[idx]}\t"
+      row.each { |col| print "#{col.value}\t" if col.visible }
+      print "\n"
+    end
+    # print "\n"
   end
 
   def won?
+    @board.each do |row|
+      row.each { |col| return false if !col.visible }
+    end
 
+    true
   end
 
   def reveal
@@ -51,4 +65,5 @@ class Board
 end
 
 b = Board.new
-b.populate
+b.render
+b.won?
