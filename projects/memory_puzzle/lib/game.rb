@@ -13,25 +13,33 @@ class Game
   end
 
   def ask_positions
-    @board.render
     position_1 = self.ask_position
-    self.reveal(position_1)
     position_2 = self.ask_position
-    self.reveal(position_2)
     [position_1, position_2]
   end
 
   def ask_position
     print "Please enter the position of the card you'd like to flip, separated by a comma:\n"
-    position = gets.chomp.split(",").map(&:to_i) || [-1,-1]
-    while !self.valid_guess?(position)
-      position = self.ask_position
+    position = self.check_guess
+    self.reveal(position)
+    position
+  end
+
+  def check_guess
+    begin
+      position = gets.chomp.split(",").map(&:to_i)
+      while !self.valid_guess?(position)
+        position = self.ask_position
+      end
+    rescue
+      print "Not a valid guess, please try another position\n"
+      position = self.check_guess
     end
     position
   end
 
   def valid_guess?(position)
-    if @board[position] == nil || @board[position].visible?
+    if @board[position].visible?
       print "Not a valid guess, please try another position\n"
       false
     else
@@ -52,11 +60,13 @@ class Game
       @board.hide(position_1)
       @board.hide(position_2)
       puts "Sorry, they are not the same, try again"
+      @board.render
       false
     end
   end
 
   def run
+    @board.render
     while !@board.won?
       play_turn
     end
@@ -66,7 +76,7 @@ class Game
 
 
   if $PROGRAM_NAME == __FILE__
-    length = 2
+    length = ARGV.empty? ? 4 : ARGV.shift.to_i
     Game.new(length).run
   end
 end
