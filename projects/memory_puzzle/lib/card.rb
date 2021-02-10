@@ -15,7 +15,11 @@ class Card
     @visible = false
   end
 
-  # def value
-  #   value.to_s
-  # end
+  def visible?
+    @visible
+  end
+
+  def ==(object)
+    object.is_a?(self.class) && object.value == value
+  end
 end

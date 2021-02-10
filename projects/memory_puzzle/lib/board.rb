@@ -3,6 +3,7 @@ require 'byebug'
 
 class Board
   ALPHABET = ("A".."Z").to_a
+  attr_reader :board
 
   def initialize(length = 4)
     @length = length
@@ -31,39 +32,48 @@ class Board
     arr.each_index { |idx| print "#{idx}\t"}
     print "\n"
     @board.each_with_index do |row, idx|
+      print "\n"
       print "#{arr[idx]}\t"
-      row.each { |col| print "#{col.value}\t" if col.visible }
+      row.each do |col|
+        if col.visible
+          print "#{col.value}\t" 
+        else
+          print "\t"
+        end
+      end
       print "\n"
     end
-    # print "\n"
   end
 
   def won?
-    @board.each do |row|
-      row.each { |col| return false if !col.visible }
+    win_condition = @board.all? do |row|
+      row.all? { |col| col.visible }
     end
 
-    true
+    win_condition || false
   end
 
-  def reveal
-
+  def reveal(pos)
+    row, col = pos
+    @board[row][col].visible = true
+  end
+  
+  def hide(pos)
+    row, col = pos
+    @board[row][col].visible = false
   end
 
   def [](pos)
-
+    row, col = pos
+    @board[row][col]
   end
-
+  
   def []=(pos, value)
-
+    row, col = pos
+    @board[row][col] = value
   end
 
-  def width(n)
-    [0...4].to_a
+  def visible?(pos)
+    @board[pos].visible
   end
-
 end
-
-b = Board.new
-b.render
-b.won?
