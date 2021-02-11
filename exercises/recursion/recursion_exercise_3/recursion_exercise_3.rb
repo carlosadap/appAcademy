@@ -118,3 +118,41 @@ mixed_arr[1] << [2]
 
 p mixed_arr
 p mixed_arr_dup
+puts "-------------"
+
+def fib_recursive(n)
+  return [1] if n < 2
+  return [1, 1] if n < 3
+ 
+  base_arr = fib_recursive(n-1)
+  
+  base_arr << base_arr[n-2] + base_arr[n-3]
+end
+
+p fib_recursive(1)
+p fib_recursive(2)
+p fib_recursive(3)
+p fib_recursive(8)
+puts "-------------"
+
+def fib_iterative(n)
+  case n
+  when 1
+    return [1]
+  when 2
+    return [1,1]
+  end
+
+  base_arr = [1, 1]
+  
+  while base_arr.length < n
+    base_arr << base_arr[-1] + base_arr[-2]
+  end
+  
+  base_arr
+end
+
+p fib_iterative(1)
+p fib_iterative(2)
+p fib_iterative(3)
+p fib_iterative(8)
