@@ -123,7 +123,7 @@ puts "-------------"
 def fib_recursive(n)
   return [1] if n < 2
   return [1, 1] if n < 3
- 
+
   base_arr = fib_recursive(n-1)
   
   base_arr << base_arr[n-2] + base_arr[n-3]
@@ -156,3 +156,52 @@ p fib_iterative(1)
 p fib_iterative(2)
 p fib_iterative(3)
 p fib_iterative(8)
+puts "-------------"
+
+def bsearch(arr, target)
+  start_idx = 0
+  end_idx = arr.length-1
+
+  return nil if arr.length == 0
+
+  mid_idx = (start_idx + end_idx) / 2
+
+  if arr[mid_idx] == target
+    return mid_idx
+  elsif arr[mid_idx] < target
+    pos_result = bsearch(arr[mid_idx+1, end_idx], target)
+    pos_result.nil? ? nil : mid_idx+1 + pos_result
+  else
+    return bsearch(arr[start_idx, mid_idx], target)
+  end
+end
+
+p bsearch([1, 2, 3], 1) # => 0
+p bsearch([2, 3, 4, 5], 3) # => 1
+p bsearch([2, 4, 6, 8, 10], 6) # => 2
+p bsearch([1, 3, 4, 5, 9], 5) # => 3
+p bsearch([1, 2, 3, 4, 5, 6], 6) # => 5
+p bsearch([1, 2, 3, 4, 5, 6], 0) # => nil
+p bsearch([1, 2, 3, 4, 5, 7], 6) # => nil
+puts "-------------"
+
+def merge_sort(arr)
+  return arr if arr.length <= 1
+
+  pivot = arr.first
+
+  left_side = arr.drop(1).select { |ele| ele <= pivot }
+  right_side = arr.drop(1).select { |ele| ele > pivot }
+
+  merge_sort(left_side) + [pivot] + merge_sort(right_side)
+end
+
+arr1 = (1..10).to_a.shuffle
+arr2 = (1..10).to_a.shuffle
+arr3 = (1..10).to_a.shuffle
+arr4 = (1..10).to_a.shuffle
+
+p merge_sort(arr1)
+p merge_sort(arr2)
+p merge_sort(arr3)
+p merge_sort(arr4)
