@@ -92,11 +92,11 @@ p exp_2(2, 256)
 puts "-------------"
 
 def deep_dup(arr)
-  return [arr] if !arr.is_a?(Array)
+  return arr if !arr.is_a?(Array)
   new_arr = []
 
   arr.each do |ele|
-    new_arr += deep_dup(ele) 
+    new_arr << deep_dup(ele) 
   end
 
   new_arr
@@ -106,9 +106,15 @@ robot_parts = [
   ["nuts", "bolts", "washers"],
   ["capacitors", "resistors", "inductors"]
 ]
-mixed_arr = [1, [2], [3, [4]]]
-p deep_dup(robot_parts)
-p robot_parts
+robot_parts_dup = deep_dup(robot_parts)
+robot_parts[1] << "LEDs"
 
-p deep_dup(mixed_arr)
+p robot_parts
+p robot_parts_dup
+
+mixed_arr = [1, [2], [3, [4]]]
+mixed_arr_dup = deep_dup(mixed_arr)
+mixed_arr[1] << [2]
+
 p mixed_arr
+p mixed_arr_dup
