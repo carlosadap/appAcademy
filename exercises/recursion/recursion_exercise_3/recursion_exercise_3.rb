@@ -205,3 +205,41 @@ p merge_sort(arr1)
 p merge_sort(arr2)
 p merge_sort(arr3)
 p merge_sort(arr4)
+puts "-------------"
+
+def subsets(arr)
+  return [[]] if arr.empty?
+  
+  size = arr.length-1
+  
+  new_arr = subsets(arr.take(size))
+
+  new_arr += new_arr.map { |array| array + [arr[-1]] }
+end
+
+p subsets([]) # => [[]]
+p subsets([1]) # => [[], [1]]
+p subsets([1, 2]) # => [[], [1], [2], [1, 2]]
+p subsets([1, 2, 3]) # => [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
+puts "-------------"
+
+def permutations(arr)
+  return [arr] if arr.length <= 1
+
+  first = arr.shift
+  perms = permutations(arr)
+  total_permutations = []
+
+  perms.each do |perm|
+    (0..perm.length).each do |i|
+      total_permutations << perm[0...i] + [first] + perm[i..-1]
+    end
+  end
+  
+  total_permutations
+end
+
+p permutations([1, 2, 3]) # => [[1, 2, 3], [1, 3, 2],
+                        #      [2, 1, 3], [2, 3, 1],
+                        #      [3, 1, 2], [3, 2, 1]]
+

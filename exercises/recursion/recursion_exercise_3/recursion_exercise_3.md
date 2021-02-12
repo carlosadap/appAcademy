@@ -122,3 +122,39 @@ Implement a method [merge_sort](http://en.wikipedia.org/wiki/Merge_sort) that so
 - The base cases are for arrays of length zero or one. Do not use a length-two array as a base case. This is unnecessary.
 - You'll want to write a `merge` helper method to merge the sorted halves.
 - To get a visual idea of how merge sort works, watch [this gif](https://en.wikipedia.org/wiki/Merge_sort#/media/File:Merge-sort-example-300px.gif) and check out [this diagram](https://assets.aaonline.io/fullstack/ruby/assets/merge-sort-diagram.png).
+
+#### Array Subsets
+
+Write a method `subsets` that will return all subsets of an array.
+
+```ruby
+subsets([]) # => [[]]
+subsets([1]) # => [[], [1]]
+subsets([1, 2]) # => [[], [1], [2], [1, 2]]
+subsets([1, 2, 3]) # => [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
+```
+
+You can implement this as an Array method if you prefer.
+
+Hint: For `subsets([1, 2, 3])`, there are two kinds of subsets:
+
+- Those that do not contain `3` (all of these are subsets of `[1, 2]`).
+- For every subset that does not contain `3`, there is also a corresponding subset that is the same, except it also *does* contain `3`.
+
+#### Permutations
+
+Write a recursive method `permutations(array)` that calculates all the [permutations](https://en.wikipedia.org/wiki/Permutation) of the given array. For an array of length `n` there are `n!` different permutations. So for an array with three elements we will have `3 * 2 * 1 = 6` different permutations.
+
+```ruby
+permutations([1, 2, 3]) # => [[1, 2, 3], [1, 3, 2],
+                        #     [2, 1, 3], [2, 3, 1],
+                        #     [3, 1, 2], [3, 2, 1]]
+```
+
+You can use Ruby's built in [Array#permutation](https://ruby-doc.org/core-2.2.0/Array.html#method-i-permutation) method to get a better understanding of what you will be building.
+
+```ruby
+[1, 2, 3].permutation.to_a  # => [[1, 2, 3], [1, 3, 2],
+                            #     [2, 1, 3], [2, 3, 1],
+                            #     [3, 1, 2], [3, 2, 1]]
+```
